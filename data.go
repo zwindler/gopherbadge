@@ -6,20 +6,21 @@ package main
 //
 // See Makefile for more info.
 var (
-	YourName, YourCompany, YourTitleA1, YourTitleA2, YourTitleB1, YourTitleB2 string
-	YourMarqueeTop, YourMarqueeMiddle, YourMarqueeBottom, YourQRText          string
+	YourName, YourCompany, YourTitleA1, YourTitleA2, YourTitleB1, YourTitleB2            string
+	YourMarqueeTop, YourMarqueeMiddle, YourMarqueeBottom, YourMarqueeBottom2, YourQRText string
 )
 
 const (
-	DefaultName          = "@zwindler.fr"
-	DefaultTitleA1       = "Jeudi a 11h10"
-	DefaultTitleA2       = "Salle Physique"
-	DefaultMarqueeTop    = "Kubernetes"
-	DefaultMarqueeMiddle = "Limits, Requests, QoS, PriorityClasses"
-	DefaultMarqueeBottom = "on balaie ce que vous pensiez savoir sur le scheduling dans Kubernetes"
-	DefaultQRText        = "https://openfeedback.io/nIlFquxGUZ1IJ1cDkc1z/2026-02-12/cmhz04xeo005j1eqw6cw1ood7"
-	DefaultTitleB1       = "I enjoy"
-	DefaultTitleB2       = "TINYGO"
+	DefaultName           = "@zwindler.fr"
+	DefaultTitleA1        = "Jeudi a 11h10"
+	DefaultTitleA2        = "Salle Physique"
+	DefaultMarqueeTop     = "Limits, Requests,"
+	DefaultMarqueeMiddle  = "QoS, PrioClasses"
+	DefaultMarqueeBottom  = "on balaie ce que vous pensiez savoir"
+	DefaultMarqueeBottom2 = "sur le scheduling dans Kubernetes"
+	DefaultQRText         = "https://openfeedback.io/nIlFquxGUZ1IJ1cDkc1z/2026-02-12/cmhz04xeo005j1eqw6cw1ood7"
+	DefaultTitleB1        = "I enjoy"
+	DefaultTitleB2        = "TINYGO"
 )
 
 func setCustomData() {
@@ -53,6 +54,10 @@ func setCustomData() {
 
 	if YourMarqueeBottom == "" {
 		YourMarqueeBottom = DefaultMarqueeBottom
+	}
+
+	if YourMarqueeBottom2 == "" {
+		YourMarqueeBottom2 = DefaultMarqueeBottom2
 	}
 
 	if YourQRText == "" {

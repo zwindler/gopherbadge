@@ -74,7 +74,7 @@ func Badge() {
 				break
 			}
 		case 3:
-			scroll(YourMarqueeTop, YourMarqueeMiddle, YourMarqueeBottom)
+			scroll(YourMarqueeTop, YourMarqueeMiddle, YourMarqueeBottom, YourMarqueeBottom2)
 			if quit {
 				break
 			}
@@ -166,7 +166,7 @@ func myNameIsRainbow(name string) {
 
 	w32, size := getFontWidthSize(name)
 	start := time.Now()
-	for i := 0; ; i++ {
+	for i := 85; ; i++ {
 		idx := i % 256
 		if size == 24 {
 			tinyfont.WriteLineColors(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32))/2, 140, name, rainbow[idx:])
@@ -255,7 +255,7 @@ func blinkyRainbow(topline, bottomline string) {
 	w32bottom, sizebottom := getFontWidthSize(bottomline)
 	start := time.Now()
 	for i := int16(0); ; i++ {
-		col := getRainbowRGB(uint8(i * 12))
+		col := getRainbowRGB(uint8(i*12 + 85))
 		if sizetop == 24 {
 			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32top))/2, 100, topline, col)
 		} else if sizetop == 18 {
@@ -288,40 +288,50 @@ func blinkyRainbow(topline, bottomline string) {
 	selected++
 }
 
-func scroll(topline, middleline, bottomline string) {
+func scroll(topline, middleline, bottomline, bottomline2 string) {
 	display.FillScreen(colors[WHITE])
 
 	// calculate the width of the text, so we could center them later
 	w32top, sizetop := getFontWidthSize(topline)
 	w32middle, sizemiddle := getFontWidthSize(middleline)
 	w32bottom, sizebottom := getFontWidthSize(bottomline)
+	w32bottom2, sizebottom2 := getFontWidthSize(bottomline2)
 
 	if sizetop == 24 {
-		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32top))/2, 70, topline, getRainbowRGB(200))
+		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32top))/2, 50, topline, getRainbowRGB(200))
 	} else if sizetop == 18 {
-		tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32top))/2, 70, topline, getRainbowRGB(200))
+		tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32top))/2, 50, topline, getRainbowRGB(200))
 	} else if sizetop == 12 {
-		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32top))/2, 70, topline, getRainbowRGB(200))
+		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32top))/2, 50, topline, getRainbowRGB(200))
 	} else {
-		tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32top))/2, 70, topline, getRainbowRGB(200))
+		tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32top))/2, 50, topline, getRainbowRGB(200))
 	}
 	if sizemiddle == 24 {
-		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32middle))/2, 120, middleline, getRainbowRGB(80))
+		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32middle))/2, 100, middleline, getRainbowRGB(80))
 	} else if sizemiddle == 18 {
-		tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32middle))/2, 120, middleline, getRainbowRGB(80))
+		tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32middle))/2, 100, middleline, getRainbowRGB(80))
 	} else if sizemiddle == 12 {
-		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32middle))/2, 120, middleline, getRainbowRGB(80))
+		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32middle))/2, 100, middleline, getRainbowRGB(80))
 	} else {
-		tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32middle))/2, 120, middleline, getRainbowRGB(80))
+		tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32middle))/2, 100, middleline, getRainbowRGB(80))
 	}
 	if sizebottom == 24 {
-		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(120))
+		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32bottom))/2, 155, bottomline, getRainbowRGB(120))
 	} else if sizebottom == 18 {
-		tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(120))
+		tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32bottom))/2, 155, bottomline, getRainbowRGB(120))
 	} else if sizebottom == 12 {
-		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(120))
+		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32bottom))/2, 155, bottomline, getRainbowRGB(120))
 	} else {
-		tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(120))
+		tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32bottom))/2, 155, bottomline, getRainbowRGB(120))
+	}
+	if sizebottom2 == 24 {
+		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32bottom2))/2, 205, bottomline2, getRainbowRGB(120))
+	} else if sizebottom2 == 18 {
+		tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32bottom2))/2, 205, bottomline2, getRainbowRGB(120))
+	} else if sizebottom2 == 12 {
+		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32bottom2))/2, 205, bottomline2, getRainbowRGB(120))
+	} else {
+		tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32bottom2))/2, 205, bottomline2, getRainbowRGB(120))
 	}
 
 	display.SetScrollArea(0, 0)
