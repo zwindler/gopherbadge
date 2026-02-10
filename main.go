@@ -49,8 +49,7 @@ func main() {
 		SDA: machine.I2C0_SDA_PIN,
 	})
 	accel = lis3dh.New(machine.I2C0)
-	accel.Address = lis3dh.Address0
-	accel.Configure()
+	accel.Configure(lis3dh.Config{})
 
 	display = st7789.New(machine.SPI0,
 		machine.TFT_RST,       // TFT_RESET
