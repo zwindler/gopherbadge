@@ -36,6 +36,18 @@ func Badge() {
 	selected = 0
 	display.FillScreen(colors[BLACK])
 
+	// Reset NeoPixel LEDs to off first
+	ledColors := make([]color.RGBA, 2)
+	ledColors[0] = color.RGBA{0, 0, 0, 255}
+	ledColors[1] = color.RGBA{0, 0, 0, 255}
+	leds.WriteColors(ledColors)
+	time.Sleep(10 * time.Millisecond)
+
+	// Light up NeoPixel LEDs
+	ledColors[0] = color.RGBA{25, 0, 8, 255} // dim reddish purple
+	ledColors[1] = color.RGBA{25, 0, 8, 255} // dim reddish purple
+	leds.WriteColors(ledColors)
+
 	rainbow = make([]color.RGBA, 512)
 	for i := 0; i < 512; i++ {
 		rainbow[i] = getRainbowRGB(uint8(i))
@@ -318,13 +330,15 @@ func scroll(topline, middleline, bottomline string) {
 		display.StopScroll()
 	}()
 
-	for i := int16(319); i >= 0; i-- {
-		if handleNavigation() {
-			return
-		}
+	for k := 0; k < 2; k++ {
+		for i := int16(319); i >= 0; i-- {
+			if handleNavigation() {
+				return
+			}
 
-		display.SetScroll(i)
-		time.Sleep(15 * time.Millisecond)
+			display.SetScroll(i)
+			time.Sleep(15 * time.Millisecond)
+		}
 	}
 
 	selected++

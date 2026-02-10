@@ -1,4 +1,4 @@
-flash: flash-tinygo
+flash: flash-denis
 
 prepare-custom:
 	go run cmd/main.go -conf=custom -filepath=$(IMAGE)
@@ -34,6 +34,11 @@ prepare-golab:
 	go run cmd/main.go -conf=golab
 
 flash-golab: prepare-golab perform-flash
+
+prepare-denis:
+	go run cmd/main.go -conf=denis
+
+flash-denis: prepare-denis perform-flash
 
 perform-flash:
 	tinygo flash -size short -target gopher-badge -ldflags="-X main.YourName='$(NAME)' \
