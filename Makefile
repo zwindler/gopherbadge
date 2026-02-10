@@ -1,5 +1,10 @@
 flash: flash-tinygo
 
+prepare-custom:
+	go run cmd/main.go -conf=custom -filepath=$(IMAGE)
+
+flash-custom: prepare-custom perform-flash
+
 prepare-gopherconeu:
 	go run cmd/main.go -conf=gopherconeu
 

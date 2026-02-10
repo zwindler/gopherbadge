@@ -11,13 +11,13 @@ var (
 )
 
 const (
-	DefaultName          = "@TinyGolang"
-	DefaultTitleA1       = "Go Compiler"
-	DefaultTitleA2       = "Small Places"
-	DefaultMarqueeTop    = "This badge"
-	DefaultMarqueeMiddle = "runs"
-	DefaultMarqueeBottom = "TINYGO"
-	DefaultQRText        = "https://gopherbadge.com"
+	DefaultName          = "@zwindler.fr"
+	DefaultTitleA1       = "Jeudi a 11h10"
+	DefaultTitleA2       = "Salle Physique"
+	DefaultMarqueeTop    = "Kubernetes"
+	DefaultMarqueeMiddle = "Limits, Requests, QoS, PriorityClasses"
+	DefaultMarqueeBottom = "on balaie ce que vous pensiez savoir sur le scheduling dans Kubernetes"
+	DefaultQRText        = "https://openfeedback.io/nIlFquxGUZ1IJ1cDkc1z/2026-02-12/cmhz04xeo005j1eqw6cw1ood7"
 	DefaultTitleB1       = "I enjoy"
 	DefaultTitleB2       = "TINYGO"
 )

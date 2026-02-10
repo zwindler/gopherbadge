@@ -37,8 +37,6 @@ var colors = []color.RGBA{
 	color.RGBA{153, 51, 255, 255},
 }
 
-var snakeGame = NewSnakeGame()
-
 func main() {
 
 	machine.SPI0.Configure(machine.SPIConfig{
@@ -93,44 +91,8 @@ func main() {
 	display.FillScreen(black)
 	setCustomData()
 
-	Info()
-
 	for {
-		switch menu() {
-		case 0:
-			Badge()
-			break
-		case 1:
-			schedule(0, 0)
-			break
-		case 2:
-			adventure()
-			break
-		case 3:
-			snakeGame.Loop()
-			break
-		case 4:
-			Leds()
-			break
-		case 5:
-			Accel3D()
-			break
-		case 6:
-			Music()
-			break
-		case 7:
-			GameOfLife()
-			break
-		case 8:
-			ColorGame()
-			break
-		case 9:
-			Info()
-			break
-		default:
-			break
-		}
-		println("LOOP")
+		Badge()
 		time.Sleep(1 * time.Second)
 	}
 

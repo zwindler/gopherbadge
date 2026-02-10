@@ -18,10 +18,11 @@ const (
 	golab              = "./cmd/assets/golab.jpg"
 	fosdem             = "./cmd/assets/fosdem.jpg"
 	fosdemgo           = "./cmd/assets/fosdemgo.jpg"
+	denis			   = "./cmd/assets/denis_320x240.jpg"
 )
 
 func main() {
-	conf := flag.String("conf", tinygoLogo, "Choose the conference logo you want to (e.g.: tinygo)")
+	conf := flag.String("conf", denis, "Choose the conference logo you want to (e.g.: tinygo)")
 	filepath := flag.String("filepath", "", "Fullpath of the image, only when -conf=custom")
 	flag.Parse()
 
@@ -56,5 +57,6 @@ func confs() map[string]string {
 		"golab":       golab,
 		"fosdem":      fosdem,
 		"fosdemgo":    fosdemgo,
+		"denis":	   denis,
 	}
 }

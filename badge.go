@@ -21,7 +21,7 @@ const (
 )
 
 const (
-	logoDisplayTime = 10 * time.Second
+	logoDisplayTime = 5 * time.Second
 )
 
 var rainbow []color.RGBA
@@ -36,14 +36,14 @@ func Badge() {
 	selected = 0
 	display.FillScreen(colors[BLACK])
 
-	rainbow = make([]color.RGBA, 256)
-	for i := 0; i < 256; i++ {
+	rainbow = make([]color.RGBA, 512)
+	for i := 0; i < 512; i++ {
 		rainbow[i] = getRainbowRGB(uint8(i))
 	}
 
 	for {
 		switch selected {
-		case 7: // last +1
+		case 5: // last +1, wrap around
 			selected = 0
 			fallthrough
 		case 0:
@@ -52,35 +52,25 @@ func Badge() {
 				break
 			}
 		case 1:
-			logoPurpleHardware()
-			if quit {
-				break
-			}
-		case 2:
 			myNameIsRainbow(YourName)
 			if quit {
 				break
 			}
-		case 3:
+		case 2:
 			blinkyRainbow(YourTitleA1, YourTitleA2)
 			if quit {
 				break
 			}
-		case 4:
+		case 3:
 			scroll(YourMarqueeTop, YourMarqueeMiddle, YourMarqueeBottom)
 			if quit {
 				break
 			}
-		case 5:
-			QR(YourQRText)
-			if quit {
-				break
-			}
-		case 255: // max
-			selected = 6 // last one
+		case 255: // uint8 underflow, wrap to last
+			selected = 4
 			fallthrough
-		case 6:
-			blinkyRainbow(YourTitleB1, YourTitleB2)
+		case 4:
+			QR(YourQRText)
 			if quit {
 				break
 			}
@@ -137,11 +127,11 @@ func myNameIs(name string) {
 	display.FillRectangle(0, HEIGHT-3*r-1, WIDTH, 2*r, colors[RED])
 
 	// top text : my NAME is
-	w32, _ := tinyfont.LineWidth(&freesans.Bold18pt7b, "HELLO")
-	tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32))/2, 34, "HELLO", colors[WHITE])
+	w32, _ := tinyfont.LineWidth(&freesans.Bold18pt7b, "Bonjour")
+	tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32))/2, 34, "Bonjour", colors[WHITE])
 
-	w32, _ = tinyfont.LineWidth(&freesans.Oblique9pt7b, "my name is")
-	tinyfont.WriteLine(&display, &freesans.Oblique9pt7b, (WIDTH-int16(w32))/2, 54, "my name is", colors[WHITE])
+	w32, _ = tinyfont.LineWidth(&freesans.Oblique9pt7b, "mon pseudo c'est")
+	tinyfont.WriteLine(&display, &freesans.Oblique9pt7b, (WIDTH-int16(w32))/2, 54, "mon pseudo c'est", colors[WHITE])
 
 	// middle text
 	w32, size := getFontWidthSize(name)
@@ -163,21 +153,27 @@ func myNameIsRainbow(name string) {
 	myNameIs(name)
 
 	w32, size := getFontWidthSize(name)
-	for i := 0; i < 230; i++ {
+	start := time.Now()
+	for i := 0; ; i++ {
+		idx := i % 256
 		if size == 24 {
-			tinyfont.WriteLineColors(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32))/2, 140, name, rainbow[i:])
+			tinyfont.WriteLineColors(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32))/2, 140, name, rainbow[idx:])
 		} else if size == 18 {
-			tinyfont.WriteLineColors(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32))/2, 140, name, rainbow[i:])
+			tinyfont.WriteLineColors(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32))/2, 140, name, rainbow[idx:])
 		} else if size == 12 {
-			tinyfont.WriteLineColors(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32))/2, 140, name, rainbow[i:])
+			tinyfont.WriteLineColors(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32))/2, 140, name, rainbow[idx:])
 		} else {
-			tinyfont.WriteLineColors(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32))/2, 140, name, rainbow[i:])
+			tinyfont.WriteLineColors(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32))/2, 140, name, rainbow[idx:])
 		}
-		i += 2
 
 		if handleNavigation() {
 			return
 		}
+
+		if time.Since(start) >= logoDisplayTime {
+			break
+		}
+		time.Sleep(50 * time.Millisecond)
 	}
 
 	selected++
@@ -245,30 +241,36 @@ func blinkyRainbow(topline, bottomline string) {
 	// calculate the width of the text so we could center them later
 	w32top, sizetop := getFontWidthSize(topline)
 	w32bottom, sizebottom := getFontWidthSize(bottomline)
-	for i := int16(0); i < 20; i++ {
-		// show black text
+	start := time.Now()
+	for i := int16(0); ; i++ {
+		col := getRainbowRGB(uint8(i * 12))
 		if sizetop == 24 {
-			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32top))/2, 100, topline, getRainbowRGB(uint8(i*12)))
+			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32top))/2, 100, topline, col)
 		} else if sizetop == 18 {
-			tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32top))/2, 100, topline, getRainbowRGB(uint8(i*12)))
+			tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32top))/2, 100, topline, col)
 		} else if sizetop == 12 {
-			tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32top))/2, 100, topline, getRainbowRGB(uint8(i*12)))
+			tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32top))/2, 100, topline, col)
 		} else {
-			tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32top))/2, 100, topline, getRainbowRGB(uint8(i*12)))
+			tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32top))/2, 100, topline, col)
 		}
 		if sizebottom == 24 {
-			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(uint8(i*12)))
+			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, col)
 		} else if sizebottom == 18 {
-			tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(uint8(i*12)))
+			tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, col)
 		} else if sizebottom == 12 {
-			tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(uint8(i*12)))
+			tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, col)
 		} else {
-			tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(uint8(i*12)))
+			tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, col)
 		}
 
 		if handleNavigation() {
 			return
 		}
+
+		if time.Since(start) >= logoDisplayTime {
+			break
+		}
+		time.Sleep(100 * time.Millisecond)
 	}
 
 	selected++
@@ -316,15 +318,13 @@ func scroll(topline, middleline, bottomline string) {
 		display.StopScroll()
 	}()
 
-	for k := 0; k < 4; k++ {
-		for i := int16(319); i >= 0; i-- {
-			if handleNavigation() {
-				return
-			}
-
-			display.SetScroll(i)
-			time.Sleep(10 * time.Millisecond)
+	for i := int16(319); i >= 0; i-- {
+		if handleNavigation() {
+			return
 		}
+
+		display.SetScroll(i)
+		time.Sleep(15 * time.Millisecond)
 	}
 
 	selected++
