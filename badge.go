@@ -125,18 +125,18 @@ func myNameIs(name string) {
 	display.FillRectangle(WIDTH-r, HEIGHT-r, r, r, colors[BLACK])
 
 	// round corners
-	tinydraw.FilledCircle(&display, r, r, r, colors[RED])
-	tinydraw.FilledCircle(&display, WIDTH-r-1, r, r, colors[RED])
-	tinydraw.FilledCircle(&display, r, HEIGHT-r-1, r, colors[RED])
-	tinydraw.FilledCircle(&display, WIDTH-r-1, HEIGHT-r-1, r, colors[RED])
+	tinydraw.FilledCircle(&display, r, r, r, colors[BLUE])
+	tinydraw.FilledCircle(&display, WIDTH-r-1, r, r, colors[BLUE])
+	tinydraw.FilledCircle(&display, r, HEIGHT-r-1, r, colors[BLUE])
+	tinydraw.FilledCircle(&display, WIDTH-r-1, HEIGHT-r-1, r, colors[BLUE])
 
 	// top band
-	display.FillRectangle(r, 0, WIDTH-2*r-1, r, colors[RED])
-	display.FillRectangle(0, r, WIDTH, 54, colors[RED])
+	display.FillRectangle(r, 0, WIDTH-2*r-1, r, colors[BLUE])
+	display.FillRectangle(0, r, WIDTH, 54, colors[BLUE])
 
 	// bottom band
-	display.FillRectangle(r, HEIGHT-r-1, WIDTH-2*r-1, r+1, colors[RED])
-	display.FillRectangle(0, HEIGHT-3*r-1, WIDTH, 2*r, colors[RED])
+	display.FillRectangle(r, HEIGHT-r-1, WIDTH-2*r-1, r+1, colors[BLUE])
+	display.FillRectangle(0, HEIGHT-3*r-1, WIDTH, 2*r, colors[BLUE])
 
 	// top text : my NAME is
 	w32, _ := tinyfont.LineWidth(&freesans.Bold18pt7b, "Bonjour")

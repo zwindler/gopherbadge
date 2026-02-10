@@ -21,6 +21,7 @@ const (
 	BLACK = iota
 	WHITE
 	RED
+	BLUE
 	SNAKE
 	TEXT
 	ORANGE
@@ -28,13 +29,14 @@ const (
 )
 
 var colors = []color.RGBA{
-	color.RGBA{0, 0, 0, 255},
-	color.RGBA{255, 255, 255, 255},
-	color.RGBA{250, 0, 0, 255},
-	color.RGBA{0, 200, 0, 255},
-	color.RGBA{160, 160, 160, 255},
-	color.RGBA{255, 153, 51, 255},
-	color.RGBA{153, 51, 255, 255},
+	color.RGBA{0, 0, 0, 255},       // BLACK
+	color.RGBA{255, 255, 255, 255}, // WHITE
+	color.RGBA{250, 0, 0, 255},     // RED
+	color.RGBA{0, 0, 250, 255},     // BLUE
+	color.RGBA{0, 200, 0, 255},     // SNAKE
+	color.RGBA{160, 160, 160, 255}, // TEXT
+	color.RGBA{255, 153, 51, 255},  // ORANGE
+	color.RGBA{153, 51, 255, 255},  // PURPLE
 }
 
 func main() {
